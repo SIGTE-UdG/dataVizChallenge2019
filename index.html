@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=utf-8 />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui' />
+    <title>SIGTE dataviz 2019</title>
+    <script src='http://cdn.leafletjs.com/leaflet/v1.3.1/leaflet.js'></script>
+
+    <link href='http://cdn.leafletjs.com/leaflet/v1.3.1/leaflet.css' rel='stylesheet' />
+    <link href='css/style.css' rel='stylesheet' />
+
+    <!--jquery-->
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+
+
+    <style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+    }
+    </style>
+</head>
+
+<body>
+    <div id='map'></div>
+
+    <!--mapa coropletes temp bcn-->
+    <script type="text/javascript" src="js/barris_bcn_temp.js"></script>
+    <!--mapa coropletes vegetation bcn-->
+    <script type="text/javascript" src="js/barris_coverage.js"></script>
+
+
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/georaster"></script>
+    <script src="https://unpkg.com/proj4"></script>
+    <script src="js/georaster-layer-for-leaflet.browserify.min.js"></script>
+    <!--easy button plugin-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+
+    <!--bootstrap-->
+    <!--<link data-require="bootstrap-css" data-semver="3.3.6" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" />
+    <script data-require="bootstrap" data-semver="3.3.6" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- align topcenter-->
+    <link rel="stylesheet" href="css/leaflet-control-topcenter.css" />
+    <script src="js/leaflet-control-topcenter.js"></script>
+
+    <!--gropup layer control-->
+    <link rel="stylesheet" href="groupLayerControl/leaflet-control-topcenter.css" />
+    <script src="groupLayerControl/leaflet.groupedlayercontrol.js"></script>
+
+    <!--font-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,300' rel='stylesheet' type='text/css'>
+
+    <script src="js/map.js"></script>
+
+
+    <!--modal info-->
+    <div class="modal fade" id="mymodal">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">LST and NDVI in Barcelona</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <p>To visualize the relation between low temperatures and greenery areas in Barcelona, two types of data were used:
+            </p>
+            <ul>
+              <li>The vegetation cover based on the NDVI index: available from Open Data BCN website.</li>
+              <li>The land surface temperature (LST): calculated using the thermal infrared imagery collected by the multispectral scanner of Landsat 8 satellite, 6th of July 2019, at 10:30 UTC when the temperature in Barcelona was 26ºC. </li>
+            </ul>
+            <p>The estimated LST reaches a maximum temperature of 56.1ºC and a minimum of 27.3ºC. The highest temperatures are mainly concentrated in the industrial and commercial areas of the city. On the contrary, the parts with lower temperatures coincide with the vegetated areas of the city: especially corresponding to parks and gardens, but also wooded avenues and inner gardens of blocks. 
+            </p>
+
+            <hr>
+            <p>
+              This map has been created by Carla Garcia, Anna Peliova and Josep Sitjar, from Servei de SIG i Teledetecció (SIGTE) of the Universitat de Girona (UdG).
+            </p>
+            <img src="./logo-complert-sigte-udg.png" height="100" width="300">
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <!--text inicial-->
+    <div class="text-inicial">
+        The visualization presented here shows how the areas with the lowest land surface temperature (LST) clearly coincide with the vegetated areas. By modifying the transparency of the vegetation cover layer you can see how this phenomenon happens even in the main wooded avenues. Likewise, the average LST and vegetation coverage layers shows how the most vegetated neighbourhoods are also the coolest ones.
+    </div>
+    <!--text graphic-->
+    <div class="text-graphic">
+      The relationship between land surface temperatures (LST) and plant cover (NDVI) is very high, with an inversely proportional trend between the variables (R = -0.69), which means that the parts with lower temperatures coincide with the vegetated areas of the city.
+    </div>
+
+    <!--layer selector-->
+    <div class="layer-form container mt-3">
+      <form>
+        <!--collapsed checkbox-->
+        <!--https://codepen.io/ibanez182/pen/WxKABq-->
+        <!---->
+
+        <div class="custom-control custom-checkbox mb-3">
+          <input type="checkbox" class="custom-control-input" id="lst" name="lst">
+          <label class="custom-control-label" for="lst">Land Surface Temperature (LST)</label>
+        </div>
+
+
+        <div class="custom-control custom-checkbox mb-3">
+          <input type="checkbox" class="custom-control-input" id="vegetation" name="vegetation">
+          <label class="custom-control-label" for="vegetation">Vegetation</label>
+        </div>
+        <div class="legend-lst"></div>
+        <div class="legend-ndvi"></div>
+
+        <div class="subtitle-2"><b>...and in your neighborhood</b></div>
+
+        <div class="custom-control custom-checkbox mb-3">
+          <input type="checkbox" class="custom-control-input" id="averageLST" name="averageLST">
+          <label class="custom-control-label" for="averageLST">Average LST (ºC)</label>
+        </div>
+
+
+        <div class="custom-control custom-checkbox mb-3">
+          <input type="checkbox" class="custom-control-input" id="vegetationCover" name="vegetationCover">
+          <label class="custom-control-label" for="vegetationCover">Vegetation cover (%)</label>
+        </div>
+
+        <div class="legend-temp"></div>
+        <div class="legend-vcover"></div>
+
+      </form>
+    </div>
+
+</body>
+</html>
