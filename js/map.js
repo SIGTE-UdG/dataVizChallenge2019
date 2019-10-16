@@ -91,7 +91,7 @@ geojsonBarrisCoverage = L.geoJson(barrisCoverage, {
 var layerTemp;
 setTimeout(function(){
 
-  const rasterUrl = "http://84.88.143.9/app/temperatura_barcelona/tif/0607_temp_4_color.tif";
+  const rasterUrl = "http://localhost/app/temperatura_barcelona/tif/0607_temp_4_color.tif";
 
   parseGeoraster(rasterUrl).then(georaster => {
     const { noDataValue } = georaster;
