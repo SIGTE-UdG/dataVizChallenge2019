@@ -267,7 +267,7 @@ var buttonStorymap = L.control({position:'bottomleft'});
 buttonStorymap.onAdd = function(map){
   var div = L.DomUtil.create('div', 'buttonStroymap');
 
-  div.innerHTML += '<a href="https://uploads.knightlab.com/storymapjs/8ef33cdca766bd401d6c52381ffa19ac/how-vegetation-affects-to-temperature-in-your-city/index.html" target="_blank"><img src="./img/buto-storymap2.png" width="140px"></a>';
+  div.innerHTML += '<a href="https://uploads.knightlab.com/storymapjs/8ef33cdca766bd401d6c52381ffa19ac/how-vegetation-affects-to-temperature-in-your-city-1/index.html" target="_blank"><img src="./img/buto-storymap2.png" width="140px"></a>';
 
   return div;
 }
